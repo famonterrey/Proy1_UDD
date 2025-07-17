@@ -43,4 +43,49 @@ Algoritmo calcularCostos
 	Definir IVA Como Real
 	IVA <- 0.19
 	
+	//Definir variables varias
+	Definir precio, numCupon, numOpcion, aux, aux1 Como Entero
+	numCupon <- 0
+	aux <- 0
+	
+	Escribir "Ingrese precio del producto"
+	Leer precio
+	
+	
+	Mientras aux = 0 Hacer
+		Escribir "¿Tienes un cupón de descuento?"
+		Escribir "Escribir número según corresponda"
+		Escribir "1 = Si			2 = No"
+		Leer numOpcion
+		
+		Si numOpcion = 2
+			Escribir "Procederemos al cálculo sin cupón de descuento"
+			aux <- -1 //con esto nos aseguramos de salir del loop
+		SiNo
+			Si numOpcion = 1
+				aux <- -1 //con esto nos aseguramos de salir del loop
+				//Con el loop que viene a continuación, determinamos el tipo de cupón que está ingresando
+				Mientras aux1 = 0 Hacer
+					Escribir "Escribir número según corresponda el cupón de descuento"
+					Escribir "1 = 10% de descuento 	2 = 20% de descuento 	3 = 30% de descuento"
+					Leer numCupon
+					
+					Si numCupon <> 1 & numCupon <> 2 & numCupon <> 3
+						Escribir "Esa opción no existe, favor ingresar una opción válida"
+					SiNo
+						aux1 = -1 //se sale del loop
+					FinSi
+				Fin Mientras
+				
+			SiNo
+				Escribir "Esa opción no existe, favor ingresar una opción válida"
+			FinSi
+		FinSi
+	Fin Mientras
+	
+	
+	
+	Escribir numCupon
+	
+	
 FinAlgoritmo
