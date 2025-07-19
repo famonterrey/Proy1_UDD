@@ -51,8 +51,8 @@ Algoritmo calcularCostos
 	IVA <- 0.19
 	
 	//Definir variables varias
-	Definir precio, cantProducto, numCupon, numOpcion, idCantProducto, idPesoProducto, idRegion, aux, aux1, aux2 Como Entero
-	Definir pesoUnitarioProducto, pesoProducto Como Real
+	Definir precioUnitario, precioTotal, cantProducto, idCupon, numOpcion, idCantProducto, idPesoProducto, idRegion, aux, aux1, aux2 Como Entero
+	Definir pesoUnitarioProducto, pesoProducto, costoTotal Como Real
 	Definir nombreProducto Como Caracter
 	numCupon <- 0
 	aux <- 0
@@ -61,9 +61,6 @@ Algoritmo calcularCostos
 	
 	Escribir "Ingrese nombre del producto"
 	Leer nombreProducto
-	
-	Escribir "Ingrese precio del producto"
-	Leer precio
 	
 	Escribir "¿Qué cantidad del producto desea llevar?"
 	Leer cantProducto
@@ -87,6 +84,10 @@ Algoritmo calcularCostos
 		FinSi
 	FinSi
 	
+	Escribir "Ingrese precio unitario del producto (esto se multiplicará por la cantidad"
+	Leer precioUnitario
+	
+	precioTotal <- precioUnitario * cantProducto
 	
 	Escribir "Ingresa en Kg el peso unitario del producto (esto se multiplicará por la cantidad)"
 	Leer pesoUnitarioProducto
@@ -144,7 +145,7 @@ Algoritmo calcularCostos
 		
 		Si numOpcion = 2
 			Escribir "Procederemos al cálculo sin cupón de descuento"
-			numCupon <- 4
+			idCupon <- 4
 			aux <- -1 //con esto nos aseguramos de salir del loop
 		SiNo
 			Si numOpcion = 1
@@ -153,9 +154,9 @@ Algoritmo calcularCostos
 				Mientras aux1 = 0 Hacer
 					Escribir "Escribir número según corresponda el cupón de descuento"
 					Escribir "1 = 10% de descuento 	2 = 20% de descuento 	3 = 30% de descuento"
-					Leer numCupon
+					Leer idCupon
 					
-					Si numCupon <> 1 & numCupon <> 2 & numCupon <> 3
+					Si idCupon <> 1 & idCupon <> 2 & idCupon <> 3
 						Escribir "Esa opción no existe, favor ingresar una opción válida"
 					SiNo
 						aux1 = -1 //se sale del loop
@@ -169,9 +170,30 @@ Algoritmo calcularCostos
 	Fin Mientras
 	
 	
+	costoTotal <- precioTotal * (1 - cupon[idCupon]) //cálculo con el descuento de cupón
+	costoTotal <- costoTotal * (1 + IVA) //cálculo con IVA
+	costoTotal <- costoTotal * (1 - desCantidad[idCantProducto]) // con decuento por cantidad
+	costoTotal <- costoTotal + region[idRegion] //sumamos costo por envío
+	costoTotal <- costoTotal + (cobroPeso[idPesoProducto] * pesoProducto) //sumamos cobro por peso
 	
-	Escribir numCupon
-	
+	Escribir "--------------------------------------------------------------------------------"
+	Escribir "Nombre del producto: ", nombreProducto
+	Escribir "Precio unitario del producto: $", precioUnitario
+	Escribir "Peso unitario del producto: ", pesoUnitarioProducto, " Kg"
+	Escribir "--------------------------------------------------------------------------------"
+	Escribir "Cantidad del producto a llevar: " cantProducto
+	Escribir "Precio total a llevar: $", precioTotal
+	Escribir "Peso total a llevar: ", pesoProducto, " Kg"
+	Escribir "--------------------------------------------------------------------------------"
+	Escribir "Descuentos asociados"
+	Escribir "Descuento por cupón: ", cupon[idCupon] * 100, " %"
+	Escribir "Descuento por cantidad: ",desCantidad[idCantProducto] * 100, " %"
+	Escribir "--------------------------------------------------------------------------------"
+	Escribir "Costos adicionales"
+	Escribir "Costo por envío: $", region[idRegion]
+	Escribir "Costo por Kg: $", cobroPeso[idPesoProducto]
+	Escribir "IVA: ", IVA," %" 
+	Escribir "--------------------------------------------------------------------------------"
+	Escribir "Costo total: $", costoTotal
 	
 FinAlgoritmo
-
